@@ -13,7 +13,7 @@ app.post('/send-prompt', async (req, res) => {
 
   try {
     await axios.post('https://hook.eu2.make.com/s7krn7hxd78zuxwqk08r6nnl2v5egzvo', {
-      prompt_text
+      content: prompt_text // ✅ Clean: sending it as { content: "..." }
     });
     res.send('Prompt forwarded successfully!');
   } catch (error) {
