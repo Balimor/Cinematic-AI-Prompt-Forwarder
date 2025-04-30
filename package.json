@@ -1,7 +1,6 @@
 {
   "name": "cinematic-prompt-server",
   "version": "1.0.0",
-  "description": "Server to forward cinematic prompts to Make Webhook",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
