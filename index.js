@@ -2,15 +2,16 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
-// ✅ Required for Render to expose the app publicly
+// ✅ Use the dynamic port Render assigns
 const PORT = process.env.PORT;
 
+// Middleware to parse JSON
 app.use(express.json());
 
-// ✅ Replace this with your actual Discord webhook
-const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1366152474469204008/lz4Ess6Hb4IORVUldBFD_VVpGnice3pQhbDU5lBrS0pyo0QBDmC-WpItUO3bRWSe4cFC';
+// ✅ Your Webhook.site test URL
+const TEST_WEBHOOK_URL = 'https://webhook.site/41329ccb-e638-4b73-af6f-f3c7da077e0c';
 
-// 🎯 POST endpoint to receive cinematic prompt and forward to Discord
+// POST endpoint to forward prompts
 app.post('/send-prompt', async (req, res) => {
   const { prompt_text } = req.body;
 
@@ -19,23 +20,23 @@ app.post('/send-prompt', async (req, res) => {
   }
 
   try {
-    await axios.post(DISCORD_WEBHOOK_URL, {
+    await axios.post(TEST_WEBHOOK_URL, {
       content: prompt_text
     });
-    console.log('✅ Prompt sent to Discord:', prompt_text);
-    res.send('✅ Prompt sent to Discord!');
+    console.log('✅ Prompt sent to Webhook.site:', prompt_text);
+    res.send('✅ Prompt sent!');
   } catch (error) {
-    console.error('❌ Error sending to Discord:', error.message);
-    res.status(500).send('❌ Failed to send prompt to Discord');
+    console.error('❌ Error:', error.message);
+    res.status(500).send('❌ Failed to send prompt');
   }
 });
 
-// Root health check route
+// Health check route
 app.get('/', (req, res) => {
-  res.send('🎬 Cinematic Prompt Server is live and listening!');
+  res.send('🎬 Test server is live!');
 });
 
-// ✅ Bind to 0.0.0.0 for public Render access
+// Bind to all interfaces for public access
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
